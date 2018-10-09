@@ -10,6 +10,12 @@ class Shop extends Component {
     cart: [],
   }
 
+  handleNewProduct = (product) => {
+    this.setState({
+      data: data.concat(product),
+    })
+  }
+
   clearCart = () => {
     this.setState({
       cart: [],
@@ -76,7 +82,9 @@ class Shop extends Component {
             data={this.state.data}
             addProduct={this.handleAddProduct}
           />
-          <AddProduct />
+          <AddProduct
+            onSubmit={this.handleNewProduct}
+          />
         </main>
       </div>
     );
