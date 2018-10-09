@@ -11,6 +11,7 @@ class ProductsList extends Component {
         qty={product.quantity}
         price={product.price}
         addProduct={this.props.addProduct}
+        onUpdateClick={this.props.onUpdateClick}
       />
     ));
 

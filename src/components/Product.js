@@ -3,6 +3,20 @@ import AddToCart from './AddToCart.js'
 import EditProduct from './EditProduct.js'
 
 class Product extends Component {
+  state = {
+    forumOpen: false,
+  }
+
+  handleEditClick = (e) => {
+    e.preventDefault();
+
+    this.setState({ forumOpen: true });
+  }
+
+  handleCancelClick = () => {
+    this.setState({ forumOpen: false });
+  }
+
   render () {
     return (
       <div className="product">
@@ -16,10 +30,19 @@ class Product extends Component {
               addProduct={this.props.addProduct}
               qty={this.props.qty}
             />
-            <EditProduct />
+          {this.state.forumOpen ? '' : <a className="button edit" onClick={this.handleEditClick}>Edit</a>}
           </div>
           <a className="delete-button"><span>X</span></a>
         </div>
+
+        {this.state.forumOpen ? <EditProduct
+          title={this.props.title}
+          qty={this.props.qty}
+          price={this.props.price}
+          id={this.props.id}
+          onCancelClick={this.handleCancelClick}
+          onUpdateClick={this.props.onUpdateClick}
+        /> : ''}
       </div>
     )
   }

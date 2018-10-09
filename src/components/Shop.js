@@ -10,6 +10,18 @@ class Shop extends Component {
     cart: [],
   }
 
+  handleUpdateClick = (id, product) => {
+    const data = this.state.data.map(item => {
+      if (item.id === id) {
+        return Object.assign({}, item, product);
+      } else {
+        return item;
+      }
+    });
+
+    this.setState({ data });
+  }
+
   handleNewProduct = (product) => {
     this.setState({
       data: data.concat(product),
@@ -81,6 +93,7 @@ class Shop extends Component {
           <ProductsList
             data={this.state.data}
             addProduct={this.handleAddProduct}
+            onUpdateClick={this.handleUpdateClick}
           />
           <AddProduct
             onSubmit={this.handleNewProduct}
