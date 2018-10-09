@@ -36,6 +36,8 @@ class Shop extends Component {
       }
     });
 
+    newCart.sort((a, b) => b.quantity - a.quantity);
+
     this.setState({
       cart: newCart,
     });
