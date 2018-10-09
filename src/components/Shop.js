@@ -10,6 +10,18 @@ class Shop extends Component {
     cart: [],
   }
 
+  handleDeleteClick = (id) => {
+    let data = this.state.data;
+
+    data.forEach((product, i) => {
+      if (product.id === id) {
+        data.splice(i, 1);
+      }
+    });
+
+    this.setState({ data });
+  }
+
   handleUpdateClick = (id, product) => {
     const data = this.state.data.map(item => {
       if (item.id === id) {
@@ -94,6 +106,7 @@ class Shop extends Component {
             data={this.state.data}
             addProduct={this.handleAddProduct}
             onUpdateClick={this.handleUpdateClick}
+            onDeleteClick={this.handleDeleteClick}
           />
           <AddProduct
             onSubmit={this.handleNewProduct}

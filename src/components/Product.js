@@ -7,6 +7,12 @@ class Product extends Component {
     forumOpen: false,
   }
 
+  handleDeleteClick = (e) => {
+    e.preventDefault();
+
+    this.props.onDeleteClick(this.props.id);
+  }
+
   handleEditClick = (e) => {
     e.preventDefault();
 
@@ -32,7 +38,12 @@ class Product extends Component {
             />
           {this.state.forumOpen ? '' : <a className="button edit" onClick={this.handleEditClick}>Edit</a>}
           </div>
-          <a className="delete-button"><span>X</span></a>
+          <a
+            className="delete-button"
+            onClick={this.handleDeleteClick}
+          >
+            <span>X</span>
+          </a>
         </div>
 
         {this.state.forumOpen ? <EditProduct
