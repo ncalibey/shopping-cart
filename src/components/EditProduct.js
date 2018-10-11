@@ -27,6 +27,7 @@ class EditProduct extends Component {
 
   handleCancelClick = (e) => {
     e.preventDefault();
+    console.log(this)
 
     this.props.onCancelClick();
   }
@@ -73,7 +74,7 @@ class EditProduct extends Component {
 
           <div class="actions form-actions">
             <a class="button" onClick={this.handleUpdateClick}>Update</a>
-            <a class="button" onClick={this.handleCancelClick}>Cancel</a>
+            <a id="cancel" class="button" onClick={this.handleCancelClick}>Cancel</a>
           </div>
         </form>
       </div>
