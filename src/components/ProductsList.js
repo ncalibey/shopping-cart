@@ -3,10 +3,11 @@ import Product from './Product.js';
 
 class ProductsList extends Component {
   render () {
-    const products = this.props.data.map( product => (
+    const products = this.props.products.map((product, i) => (
       <Product
         key={'product-' + product.id}
         id={product.id}
+        idx={i}
         title={product.title}
         qty={product.quantity}
         price={product.price}

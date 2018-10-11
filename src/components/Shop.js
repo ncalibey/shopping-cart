@@ -3,107 +3,59 @@ import Cart from './Cart.js';
 import ProductsList from './ProductsList.js';
 import AddProduct from './AddProduct.js';
 import data from '../lib/data.js'
+import store from '../store';
+import {Provider} from 'react-redux';
 
 class Shop extends Component {
-  state = {
-    data: data,
-    cart: [],
+  componentDidMount() {
+    store.subscribe(() => { this.forceUpdate() });
+    store.dispatch({ type: 'PRODUCTS_RECEIVED', products: data});
   }
 
-  handleDeleteClick = (id) => {
-    let data = this.state.data;
-
-    data.forEach((product, i) => {
-      if (product.id === id) {
-        data.splice(i, 1);
-      }
-    });
-
-    this.setState({ data });
+  handleDeleteClick = (i) => {
+    store.dispatch({type: 'PRODUCT_DELETED', index: i})
   }
 
   handleUpdateClick = (id, product) => {
-    const data = this.state.data.map(item => {
-      if (item.id === id) {
-        return Object.assign({}, item, product);
-      } else {
-        return item;
-      }
-    });
-
-    this.setState({ data });
+    store.dispatch({type: 'PRODUCT_UPDATED', product, id})
   }
 
   handleNewProduct = (product) => {
-    this.setState({
-      data: data.concat(product),
-    })
+    store.dispatch({type: 'PRODUCT_ADDED', product: product});
   }
 
   clearCart = () => {
-    this.setState({
-      cart: [],
-    });
+    store.dispatch({type: 'CLEAR_CART'})
   }
 
   updateCart = (productId) => {
     const newCart = [];
-    let product = this.state.data.filter(product => product.id === productId)[0];
+    let product = store.getState().products.find(product => product.id === productId);
 
-    if (this.state.cart.filter(product => product.id === productId).length === 0) {
-      newCart.push(Object.assign({}, product, {
-        quantity: 1,
-      }));
-    }
-
-    this.state.cart.forEach(product => {
-      if (product.id === productId) {
-        newCart.push(Object.assign({}, product, {
-          quantity: product.quantity + 1,
-        }));
-      } else {
-        newCart.push(product);
-      }
-    });
-
-    newCart.sort((a, b) => b.quantity - a.quantity);
-
-    this.setState({
-      cart: newCart,
-    });
+    store.dispatch({type: 'UPDATE_CART', product, id: productId})
   }
 
   handleAddProduct = (productId) => {
     this.updateCart(productId);
-
-    const nextProducts = this.state.data.map(product => {
-      if (product.id === productId) {
-        return Object.assign({}, product, {
-          quantity: product.quantity - 1,
-        });
-      } else {
-        return product;
-      }
-    });
-
-    this.setState({
-      data: nextProducts,
-    });
+    store.dispatch({type: 'REDUCE_PRODUCT_COUNT', id: productId})
   }
 
   render() {
+    const products = store.getState().products;
+    const cart = store.getState().cart;
+
     return (
       <div id="app">
         <header>
           <h1>The Shop!</h1>
           <Cart
-            cart={this.state.cart}
+            cart={cart}
             checkout={this.clearCart}
           />
         </header>
         <main>
           <ProductsList
-            data={this.state.data}
+            products={products}
             addProduct={this.handleAddProduct}
             onUpdateClick={this.handleUpdateClick}
             onDeleteClick={this.handleDeleteClick}

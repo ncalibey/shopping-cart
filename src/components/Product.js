@@ -10,7 +10,7 @@ class Product extends Component {
   handleDeleteClick = (e) => {
     e.preventDefault();
 
-    this.props.onDeleteClick(this.props.id);
+    this.props.onDeleteClick(this.props.idx);
   }
 
   handleEditClick = (e) => {

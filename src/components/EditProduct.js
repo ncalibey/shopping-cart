@@ -27,7 +27,6 @@ class EditProduct extends Component {
 
   handleCancelClick = (e) => {
     e.preventDefault();
-    console.log(this)
 
     this.props.onCancelClick();
   }
